@@ -33,12 +33,28 @@ public class ThrowGrenade : MonoBehaviour
     private void Throw()
     {
         readyToThrow = false;
+
         GameObject projectile = Instantiate(grenade, attackPoint.position, cam.rotation);
+
         Rigidbody projectileRB = projectile.GetComponent<Rigidbody>();
-        Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForce;
+
+        Vector3 throwDirection = cam.transform.forward;
+
+        RaycastHit hit;
+
+        if (Physics.Raycast(cam.position, cam.forward, out hit, 200f))
+        {
+            throwDirection = (hit.point - attackPoint.position).normalized;
+        }
+
+        Vector3 forceToAdd = throwDirection * throwForce + transform.up * throwUpwardForce;
+
         projectileRB.AddForce(forceToAdd, ForceMode.Impulse);
+
         totalThrows--;
+
         Invoke(nameof(ResetThrow), throwCooldown);
+
     }
 
     private void ResetThrow()
