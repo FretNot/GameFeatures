@@ -1818,5 +1818,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   Shield: 0
+  Regain: 0
+  Regen: 0
   totalHealth: 0
   HealthText: {fileID: 1518165343}

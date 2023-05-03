@@ -11,9 +11,9 @@ public class Player_Health : MonoBehaviour
     private float minHP = 0;
     private float leftOver;
     private float ableftOver;
-    private float maxOverShield = 100;
-    bool Regain = false;
-    bool Regen = false;
+    private float maxOverShield = 50;
+    public bool Regain = false;
+    public bool Regen = false;
     private float currentHealth;
     public float totalHealth;
     public Text HealthText;
@@ -29,8 +29,8 @@ public class Player_Health : MonoBehaviour
 
     void Update()
     {
-        StartCoroutine(RegainHealth());
-        StartCoroutine(RiftRegen());
+        //StartCoroutine(RiftRegen());
+        //StartCoroutine(RegainHealth());
         totalHealth = Health + Shield;
         SetCountText();
     }
@@ -92,43 +92,40 @@ public class Player_Health : MonoBehaviour
     }
     IEnumerator RegainHealth()
     {
-        if (Regain == true)
+        yield return new WaitForSeconds(8f);
+        while (Regain != false && Health < maxHP)
         {
-            yield return new WaitForSeconds(8f);
-            if (Health < maxHP)
-            {
                 Health += .1f;
-                yield return new WaitForSeconds(1f);
-            }
-            else
-            {
-                yield return null;
-            }
-            if (Health > maxHP)
-            {
-                Health = maxHP;
-            }
+                yield return new WaitForSeconds(.01f);
+        }
+        if (Health > maxHP)
+        {
+            Health = maxHP;
         }
         Regain = false;
     }
     IEnumerator RiftRegen()
     {
-        if (Regen == true)
+        while (Regen != false && Shield < maxOverShield)
         {
-            if (Shield < maxOverShield)
+            if (Health < maxHP)
             {
-                Shield += .3f;
-                yield return new WaitForSeconds(15f);
+                Health += .1f;
+                yield return new WaitForSeconds(.01f);
             }
-            else
+            if (Health >= maxHP)
             {
-                yield return null;
+                Shield += 1f;
+                yield return new WaitForSeconds(.01f);
             }
-            if (Shield > maxOverShield)
-            {
-                Shield = maxOverShield;
-            }
-            Regen = false;
+        }
+        if (Shield > maxOverShield)
+        {
+            Shield = maxOverShield;
+        }
+        if (Health > maxHP)
+        {
+            Health = maxHP;
         }
     }
 }
