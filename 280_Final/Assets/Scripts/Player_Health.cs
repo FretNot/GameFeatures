@@ -135,7 +135,7 @@ public class Player_Health : MonoBehaviour
             }
             if (Health >= maxHP)
             {
-                Shield += 1f;
+                Shield += .2f;
                 yield return new WaitForSeconds(.01f);
             }
         }

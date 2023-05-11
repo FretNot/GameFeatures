@@ -23,9 +23,10 @@ public class HealingRift : MonoBehaviour
     {
         if (readyToPlace && placingRift != true)
         {
-            Invoke("Place", 2f);
+            Invoke("Place", 1.5f);
             placingRift = true;
             Debug.Log(placingRift);
+            Invoke("finishplace", 2.5f);
         }
     }
 
@@ -35,9 +36,11 @@ public class HealingRift : MonoBehaviour
         GameObject rift = Instantiate(Rift, HealingPoint.position, cam.rotation);
         Rigidbody riftRB = rift.GetComponent<Rigidbody>();
         Invoke(nameof(ResetRift), riftCooldown);
+    }
+    public void finishplace()
+    {
         placingRift = false;
     }
-
     private void ResetRift()
     {
         readyToPlace = true;
