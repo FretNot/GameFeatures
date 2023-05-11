@@ -8,4 +8,5 @@ public class SpawnedThingsClass : MonoBehaviour
     public Transform HealingPoint;
     public GameObject grenade;
     public GameObject Rift;
+    public GameObject CelestialFire;
 }

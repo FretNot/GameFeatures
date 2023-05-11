@@ -8,6 +8,7 @@ public class HealingRift : MonoBehaviour
     public Transform cam;
     public Transform HealingPoint;
     public GameObject Rift;
+    public bool placingRift;
 
     public float riftCooldown;
 
@@ -20,9 +21,11 @@ public class HealingRift : MonoBehaviour
 
     public void OnPlaceRift(InputAction.CallbackContext context)
     {
-        if (readyToPlace)
+        if (readyToPlace && placingRift != true)
         {
-            Place();
+            Invoke("Place", 2f);
+            placingRift = true;
+            Debug.Log(placingRift);
         }
     }
 
@@ -32,6 +35,7 @@ public class HealingRift : MonoBehaviour
         GameObject rift = Instantiate(Rift, HealingPoint.position, cam.rotation);
         Rigidbody riftRB = rift.GetComponent<Rigidbody>();
         Invoke(nameof(ResetRift), riftCooldown);
+        placingRift = false;
     }
 
     private void ResetRift()

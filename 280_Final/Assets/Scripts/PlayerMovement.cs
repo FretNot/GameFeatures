@@ -10,6 +10,8 @@ public class PlayerMovement : MonoBehaviour
     public float speed;
     private float defaultSpeed = .2f;
     public bool sprinting;
+
+
     private void Awake()
     {
         playerInputActions = new PlayerInputActions();
@@ -26,6 +28,14 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 moveVec = playerInputActions.Player.Move.ReadValue<Vector2>();
         transform.Translate(new Vector3(moveVec.x, 0, moveVec.y) * speed);
+        if (GetComponent<HealingRift>().placingRift == true)
+        {
+            speed = 0;
+        }
+        if (GetComponent<HealingRift>().placingRift != true)
+        {
+            speed = defaultSpeed;
+        }
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -39,10 +49,14 @@ public class PlayerMovement : MonoBehaviour
     }
     public void OnMove(InputAction.CallbackContext context)
     {
-        Vector2 moveVec = context.ReadValue<Vector2>();
-        transform.Translate(new Vector3(moveVec.x, 0, moveVec.y) * speed);
+        while(GetComponent<HealingRift>().placingRift != true)
+        {
+            Vector2 moveVec = context.ReadValue<Vector2>();
+            transform.Translate(new Vector3(moveVec.x, 0, moveVec.y) * speed);
+        }
+            
     }
-    public void sprint(InputAction.CallbackContext context)
+    public void OnSprint(InputAction.CallbackContext context)
     {
         if (context.started)
         {

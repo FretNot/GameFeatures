@@ -14,11 +14,14 @@ public class Player_Health : MonoBehaviour
     private float maxOverShield = 50;
     public bool Regain = false;
     public bool Regen = false;
-    private float currentHealth;
+    public bool noDamageTaken = true;
+    public bool riftActive = false;
     public float totalHealth;
     public Text HealthText;
 
-    void start()
+    IEnumerator ActiveRegainHealth;
+
+    public void start()
     {
         SetCountText();
     }
@@ -33,6 +36,10 @@ public class Player_Health : MonoBehaviour
         //StartCoroutine(RegainHealth());
         totalHealth = Health + Shield;
         SetCountText();
+        if (riftActive == false)
+        {
+            Shield = 0;
+        }
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -40,14 +47,22 @@ public class Player_Health : MonoBehaviour
         {
             Debug.Log("collided with enemy");
             TakeDamage(20);
+            if (ActiveRegainHealth != null)
+            {
+                StopCoroutine(ActiveRegainHealth);
+            }
             Regain = true;
-            StartCoroutine(RegainHealth());
+            noDamageTaken = false;
+            ActiveRegainHealth = RegainHealth();
+            StartCoroutine(ActiveRegainHealth);
         }
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "Rift")
         {
+            riftActive = true;
+            Invoke("RiftDeactivate", 15f);
             Debug.Log("standing in rift");
             Regen = true;
             StartCoroutine(RiftRegen());
@@ -68,6 +83,7 @@ public class Player_Health : MonoBehaviour
     {
         if (Shield > 0)
         {
+
             Shield -= DamageAmount;
             leftOver = Shield - DamageAmount;
             ableftOver = Mathf.Abs(leftOver);
@@ -92,8 +108,12 @@ public class Player_Health : MonoBehaviour
     }
     IEnumerator RegainHealth()
     {
-        yield return new WaitForSeconds(8f);
-        while (Regain != false && Health < maxHP)
+        //need a requirement for not already regening
+
+        yield return new WaitForSeconds(5f);
+        noDamageTaken = true;
+        Regain = true;
+        while (noDamageTaken && Regain != false && Health < maxHP)
         {
                 Health += .1f;
                 yield return new WaitForSeconds(.01f);
@@ -127,5 +147,9 @@ public class Player_Health : MonoBehaviour
         {
             Health = maxHP;
         }
+    }
+    public void RiftDeactivate()
+    {
+        riftActive = false;
     }
 }

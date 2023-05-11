@@ -58,12 +58,18 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Player_Health.cs" />
     <Compile Include="Assets\Scripts\ThrowGrenade.cs" />
+    <Compile Include="Assets\Scripts\FollowCam.cs" />
     <Compile Include="Assets\Scripts\SpawnedThingsClass.cs" />
     <Compile Include="Assets\Scripts\HealingRift.cs" />
     <Compile Include="Assets\Scripts\SimpleCameraController.cs" />
     <Compile Include="Assets\PlayerInputActions.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\Dummys.cs" />
+    <Compile Include="Assets\Scripts\Rift.cs" />
     <Compile Include="Assets\TutorialInfo\Scripts\Readme.cs" />
+    <Compile Include="Assets\Scripts\G_Explosion.cs" />
+    <Compile Include="Assets\Scripts\CelestialFire.cs" />
+    <Compile Include="Assets\Scripts\CFPop.cs" />
     <Compile Include="Assets\Scripts\Grenade.cs" />
   </ItemGroup>
   <ItemGroup>

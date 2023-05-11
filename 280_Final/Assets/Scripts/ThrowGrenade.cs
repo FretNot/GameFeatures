@@ -42,7 +42,7 @@ public class ThrowGrenade : MonoBehaviour
 
         RaycastHit hit;
 
-        if (Physics.Raycast(cam.position, cam.forward, out hit, 200f))
+        if (Physics.Raycast(cam.position, cam.forward, out hit, 5000f))
         {
             throwDirection = (hit.point - attackPoint.position).normalized;
         }
